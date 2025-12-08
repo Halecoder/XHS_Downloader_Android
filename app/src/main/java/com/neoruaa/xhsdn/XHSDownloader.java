@@ -1562,6 +1562,7 @@ public class XHSDownloader {
 
         // Now handle the remaining media that are not part of live photo pairs
         // These include standalone images and standalone videos (like post videos)
+        int mediaIndex = livePhotoIndex; // Continue numbering after live photo pairs
         for (String mediaUrl : mediaUrls) {
             boolean isPartOfLivePhoto = false;
             // Check if this URL is part of any live photo pair
@@ -1574,7 +1575,8 @@ public class XHSDownloader {
 
             if (!isPartOfLivePhoto) {
                 // This media is not part of a live photo pair, download separately
-                String baseFileName = buildFileBaseName(postId, livePhotoIndex + 1);
+                mediaIndex++; // Increment for each standalone media to avoid overwriting files
+                String baseFileName = buildFileBaseName(postId, mediaIndex);
                 String uniqueFileName = baseFileName + "_" + (isVideoUrl(mediaUrl) ? "video" : "image");
                 String fileExtension = determineFileExtension(mediaUrl);
                 String fileNameWithExtension = uniqueFileName + "." + fileExtension;
